@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Name Display</title>
+</head>
+<body>
+	
+	 <label for="name-input">Enter your name:</label>
+	 <input type="text" id="name-input">
+  	 <div id="name-display">Hello</div>
+  
+
+  <script>
+
+	    const textbox = document.getElementById('name-input');
+	    const div = document.getElementById('name-display');
+
+	    textbox.addEventListener('input', function() {
+	      div.innerHTML = "Hello " + textbox.value;
+	    });
+
+  </script>
+
+
+</body>
+</html>
