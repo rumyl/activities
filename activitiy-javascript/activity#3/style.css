@@ -1,0 +1,30 @@
+.container {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+  }
+  input[type="text"], textarea {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  button {
+    display: block;
+    margin: 10px 0;
+  }
+  ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  ol {
+    list-style-type: decimal;
+    padding-left: 20px;
+  }
+  .recipe-list {
+    margin-top: 20px;
+  }
+  .recipe-list li {
+    cursor: pointer;
+  }
