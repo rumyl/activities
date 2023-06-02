@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Activity #3</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Simple Cookbook</h1>
+
+  <form id="recipeForm">
+    <h3>Recipe Name:</h3>
+    <input type="text" id="title" required>
+    <br><br>
+
+    <h3>Ingredients:</h3>
+    <ul id="ingredientsList"></ul>
+    <button type="button" onclick="addIngredient()">Add</button>
+    
+
+    <h3>Instructions:</h3>
+    <ol id="instructionsList"></ol>
+    <button type="button" onclick="addInstruction()">Add</button>
+    <br><br>
+
+    <input type="submit" value="Save Recipe">
+  </form>
+
+  <h2>Recipe List</h2>
+  <ul id="recipeList"></ul>
+
+</body>
+</html>
