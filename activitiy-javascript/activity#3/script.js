@@ -1,102 +1,85 @@
-let recipeList = [];
-let currentRecipeIndex = -1;
-
-function addIngredient() {
-  const ingredientInput = document.getElementById("ingredient-input");
-  const ingredient = ingredientInput.value.trim();
-  if (ingredient !== "") {
-    const ingredientsList = document.getElementById("ingredients-list");
-    const listItem = document.createElement("li");
-    listItem.textContent = ingredient;
-    ingredientsList.appendChild(listItem);
-    ingredientInput.value = "";
+ // Function to add an ingredient field
+ function addIngredient() {
+    var ingredientsList = document.getElementById('ingredientsList');
+    var newIngredient = document.createElement('li');
+    var input = document.createElement('input');
+    input.type = 'text';
+    input.required = true;
+    newIngredient.appendChild(input);
+    ingredientsList.appendChild(newIngredient);
   }
-}
 
-function addInstruction() {
-  const instructionInput = document.getElementById("instruction-input");
-  const instruction = instructionInput.value.trim();
-  if (instruction !== "") {
-    const instructionsList = document.getElementById("instructions-list");
-    const listItem = document.createElement("li");
-    listItem.textContent = instruction;
-    instructionsList.appendChild(listItem);
-    instructionInput.value = "";
+  // Function to add an instruction field
+  function addInstruction() {
+    var instructionsList = document.getElementById('instructionsList');
+    var newInstruction = document.createElement('li');
+    var input = document.createElement('input');
+    input.type = 'text';
+    input.required = true;
+    newInstruction.appendChild(input);
+    instructionsList.appendChild(newInstruction);
   }
-}
 
-function saveRecipe() {
-  const titleInput = document.getElementById("recipe-title");
-  const title = titleInput.value.trim();
-  const ingredientsList = document.getElementById("ingredients-list");
-  const instructionsList = document.getElementById("instructions-list");
+  // Function to save the recipe
+  document.getElementById('recipeForm').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-  if (title !== "" && ingredientsList.children.length > 0 && instructionsList.children.length > 0) {
-    const recipe = {
-      title: title,
-      ingredients: Array.from(ingredientsList.children).map(li => li.textContent),
-      instructions: Array.from(instructionsList.children).map(li => li.textContent)
-    };
+    var recipeTitle = document.getElementById('title').value;
+    var ingredientsList = document.getElementById('ingredientsList');
+    var instructionsList = document.getElementById('instructionsList');
+    var ingredients = [];
+    var instructions = [];
 
-    if (currentRecipeIndex === -1) {
-      recipeList.push(recipe);
-    } else {
-      recipeList[currentRecipeIndex] = recipe;
-      currentRecipeIndex = -1;
+    // Get all ingredients
+    var ingredientInputs = ingredientsList.getElementsByTagName('input');
+    for (var i = 0; i < ingredientInputs.length; i++) {
+      if (ingredientInputs[i].value.trim() !== '') {
+        ingredients.push(ingredientInputs[i].value);
+      }
     }
 
-    renderRecipeList();
-    resetForm();
+    // Get all instructions
+    var instructionInputs = instructionsList.getElementsByTagName('input');
+    for (var j = 0; j < instructionInputs.length; j++) {
+      if (instructionInputs[j].value.trim() !== '') {
+        instructions.push(instructionInputs[j].value);
+      }
+    }
+
+    // Create the recipe object
+    var recipe = {
+      title: recipeTitle,
+      ingredients: ingredients,
+      instructions: instructions
+    };
+
+    // Clear the form inputs
+    document.getElementById('title').value = '';
+    ingredientsList.innerHTML = '';
+    instructionsList.innerHTML = '';
+
+    // Add the recipe to the recipe list
+    addRecipeToList(recipe);
+  });
+
+  // Function to add a recipe to the recipe list
+  function addRecipeToList(recipe) {
+    var recipeList = document.getElementById('recipeList');
+    var newRecipe = document.createElement('li');
+    newRecipe.innerHTML = '<span class="recipe-title" onclick="toggleRecipeDetails(this)">' + recipe.title + '</span>' +
+      '<div style="display: none;">' +
+      '<strong>Ingredients:</strong><br>' + recipe.ingredients.join('<br>') + '<br><br>' +
+      '<strong>Instructions:</strong><ol><li>' + recipe.instructions.join('</li><li>') + '</li></ol>' +
+      '</div>';
+    recipeList.appendChild(newRecipe);
   }
-}
 
-function renderRecipeList() {
-  const recipeListElement = document.getElementById("recipe-list");
-  recipeListElement.innerHTML = "";
-
-  recipeList.forEach((recipe, index) => {
-    const listItem = document.createElement("li");
-    listItem.textContent = recipe.title;
-    listItem.addEventListener("click", () => displayRecipeDetails(index));
-    recipeListElement.appendChild(listItem);
-  });
-}
-
-function displayRecipeDetails(index) {
-  const recipe = recipeList[index];
-  const titleInput = document.getElementById("recipe-title");
-  const ingredientsList = document.getElementById("ingredients-list");
-  const instructionsList = document.getElementById("instructions-list");
-
-  titleInput.value = recipe.title;
-  ingredientsList.innerHTML = "";
-  instructionsList.innerHTML = "";
-
-  recipe.ingredients.forEach(ingredient => {
-    const listItem = document.createElement("li");
-    listItem.textContent = ingredient;
-    ingredientsList.appendChild(listItem);
-  });
-
-  recipe.instructions.forEach(instruction => {
-    const listItem = document.createElement("li");
-    listItem.textContent = instruction;
-    instructionsList.appendChild(listItem);
-  });
-
-  currentRecipeIndex = index;
-}
-
-function resetForm() {
-  const titleInput = document.getElementById("recipe-title");
-  const ingredientsList = document.getElementById("ingredients-list");
-  const instructionsList = document.getElementById("instructions-list");
-
-  titleInput.value = "";
-  ingredientsList.innerHTML = "";
-  instructionsList.innerHTML = "";
-
-  currentRecipeIndex = -1;
-}
-
-renderRecipeList();
+  // Function to toggle recipe details visibility
+  function toggleRecipeDetails(titleElement) {
+    var detailsElement = titleElement.nextElementSibling;
+    if (detailsElement.style.display === 'none') {
+      detailsElement.style.display = 'block';
+    } else {
+      detailsElement.style.display = 'none';
+    }
+  }
